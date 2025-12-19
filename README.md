@@ -6,7 +6,7 @@ This project focuses on building an image captioning model using the Flickr8k da
 
 ## Dataset
 
-- **Source**: Flickr8k dataset (available on Kaggle)
+- **Source**: Flickr8k dataset (download link in notebook/README)
 - **Content**: 8,000 images, each paired with five human-written captions
 - **Split**:
   - 6,000 images for training
@@ -28,7 +28,7 @@ Two models were implemented for comparison:
 
 ### 2. ResNet50 + Attention + LSTM (Final)
 - Extracts 49×2048 spatial features from ResNet-50
-- Bahdanau-style attention mechanism
+- Additive (Bahdanau-style) attention mechanism over spatial CNN features
 - LSTMCell-based decoder for token-level generation
 - Trained directly on raw images
 
@@ -63,9 +63,34 @@ While not as dynamic as the ground truth, the predicted caption is semantically 
 
 ---
 
-## File Overview
+## Key Takeaways
 
-- `Image_Captioning_Kunal.ipynb` – Final notebook with all code and outputs
+- Attention-based decoding significantly improves caption quality over a CNN–LSTM baseline.
+- Beam search consistently outperforms greedy decoding across all architectures.
+- Using spatial CNN features (ResNet-50) enables better object and action grounding than global VGG features.
+
+---
+
+## Reproducibility Notes
+
+- Image size: 224 × 224 (ImageNet normalization)
+- Vocabulary threshold: minimum word frequency = 5
+- Maximum caption length: 30 tokens
+- Beam width: 3
+- Evaluation metric: BLEU-1 to BLEU-4 (NLTK corpus_bleu)
+- Results may vary slightly due to random caption sampling during training
+
+---
+
+### Environment note
+
+- Developed and tested using Python 3.10+ and PyTorch
+
+---
+
+## File Overview
+- `ImageCaptioningUsingPyTorch.ipynb` – End-to-end notebook (preprocessing, training, evaluation, decoding)
+- `requirements.txt` – Python dependencies
 - `README.md` – Project documentation
 
 ---
@@ -73,6 +98,13 @@ While not as dynamic as the ground truth, the predicted caption is semantically 
 ## Running Instructions
 
 1. Download the Flickr8k dataset and structure it as required
+
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
+   ```
+
+3. Launch the notebook:
+   ```bash
+   jupyter notebook ImageCaptioningUsingPyTorch.ipynb
+   ```
